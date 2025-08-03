@@ -77,29 +77,30 @@ const handleSubmit = async (e) => {
   loader(messageDiv);
 
   // //Fetch response from server
-  // const response = await fetch("https://codex-ai.onrender.com/", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     prompt: data.get("prompt"),
-  //   }),
-  // });
+  const response = await fetch("http://localhost:5000", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt: data.get("prompt"),
+    }),
+  });
 
-  // clearInterval(loadInterval);
-  // messageDiv.innerHTML = "";
+  clearInterval(loadInterval);
+  messageDiv.innerHTML = "";
 
-  // if (response.ok) {
-  //   const data = await response.json();
-  //   const parsedData = data.bot.trim();
+  if (response.ok) {
+    const data = await response.json();
+    const parsedData = data.bot.trim();
 
-  //   typeText(messageDiv, parsedData);
-  // } else {
-  //   const err = await response.text();
-  //   messageDiv.innerHTML = "Something went wrong";
-  //   alert(err);
-  // }
+    typeText(messageDiv, parsedData);
+    console.log("Response:", parsedData);
+  } else {
+    const err = await response.text();
+    messageDiv.innerHTML = "Something went wrong";
+    alert(err);
+  }
 };
 
 form.addEventListener("submit", handleSubmit);
